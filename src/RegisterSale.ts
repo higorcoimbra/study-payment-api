@@ -1,12 +1,17 @@
 import crypto from "crypto";
+import { Sale } from "./Sale";
+import RegisterSaleRepository from "./RegisterSaleRepository";
 
 export class RegisterSale {
-    constructor() {}
+    constructor(
+        readonly registerSaleRepository: RegisterSaleRepository
+    ) {}
 
     async execute(input: Input): Promise<Output> {
-        const saleId = crypto.randomUUID();
+        const sale = new Sale(input.salesmanId, input.saleDate, input.orderId, input.itemIds);
+        await this.registerSaleRepository.registerSale(sale);
         return {
-            saleId: saleId
+            saleId: crypto.randomUUID()
         }
     }
 }

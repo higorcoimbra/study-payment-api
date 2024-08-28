@@ -1,4 +1,5 @@
 import { RegisterSale } from "./RegisterSale";
+import { RegisterSaleFake } from "./RegisterSaleRepository";
 
 it("should register a valid sale", async function() {
     const inputRegisterSale = {
@@ -7,7 +8,8 @@ it("should register a valid sale", async function() {
         orderId: "order1",
         itemIds: ["item1", "item2", "item3"]
     }
-    const registerSale = new RegisterSale();
+    const registerSaleFake = new RegisterSaleFake();
+    const registerSale = new RegisterSale(registerSaleFake);
     const outputRegisterSale = await registerSale.execute(inputRegisterSale);
     expect(outputRegisterSale.saleId).toBeDefined();
 });
