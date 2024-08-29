@@ -8,10 +8,10 @@ export class RegisterSale {
     ) {}
 
     async execute(input: Input): Promise<Output> {
-        const sale = new Sale(input.salesmanId, input.saleDate, input.orderId, input.itemIds);
+        const sale = Sale.create(input.salesmanId, input.saleDate, input.orderId, input.itemIds);
         await this.registerSaleRepository.registerSale(sale);
         return {
-            saleId: crypto.randomUUID()
+            saleId: sale.saleId
         }
     }
 }
