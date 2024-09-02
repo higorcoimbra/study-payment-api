@@ -31,7 +31,7 @@ export class SaleRepositoryDatabase implements SaleRepository {
     }
 
     async getSale(saleId: string): Promise<Sale> {
-        const ormSale = await this.ormRepository.find({
+        const queryResult = await this.ormRepository.find({
             where: {
                 id: saleId
             },
@@ -40,14 +40,16 @@ export class SaleRepositoryDatabase implements SaleRepository {
             }
         });
 
-        if(!ormSale.length) throw new Error("Sale not found");
+        const ormSale = queryResult.shift();
+
+        if(!ormSale) throw new Error("Sale not found");
 
         return new Sale(
-            ormSale[0].id, 
-            ormSale[0].salesmanId, 
-            ormSale[0].date, 
-            ormSale[0].orderId,
-            ormSale[0].items.map(item => item.id)
+            ormSale.id, 
+            ormSale.salesmanId, 
+            ormSale.date, 
+            ormSale.orderId,
+            ormSale.items.map(item => item.id)
         )
     }
 }
