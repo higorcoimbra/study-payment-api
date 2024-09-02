@@ -1,15 +1,15 @@
 import crypto from "crypto";
 import { Sale } from "./Sale";
-import RegisterSaleRepository from "./RegisterSaleRepository";
+import SaleRepository from "./SaleRepository";
 
 export class RegisterSale {
     constructor(
-        readonly registerSaleRepository: RegisterSaleRepository
+        readonly saleRepository: SaleRepository
     ) {}
 
     async execute(input: Input): Promise<Output> {
         const sale = Sale.create(input.salesmanId, input.saleDate, input.orderId, input.itemIds);
-        await this.registerSaleRepository.registerSale(sale);
+        await this.saleRepository.registerSale(sale);
         return {
             saleId: sale.saleId
         }
